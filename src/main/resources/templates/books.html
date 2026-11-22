@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        Norn-My Books
+    </title>
+
+</head>
+<body>
+<h1>My Books</h1>
+<form method="get" th:action="@{/books}">
+    <input type="text" name="q" th:value="${q}" placeholder="Search by title">
+    <button>Search</button>
+</form>
+
+<p th:if="${#lists.isEmpty(books)}">No Books Found</p>
+
+
+<table th:unless="${#lists.isEmpty(books)}" border="1" cellpadding="6">
+    <thead>
+    <tr>
+        <th>Title</th><th>Author</th><th>Genre</th><th>Status</th><th>Rating</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.title}">Title</td>
+        <td th:text="${book.author}">Author</td>
+        <td th:text="${book.genre}">Genre</td>
+        <td th:text="${book.status}">Status</td>
+        <td th:text="${book.rating}">Rating</td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>
