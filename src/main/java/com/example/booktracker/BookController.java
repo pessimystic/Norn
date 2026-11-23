@@ -1,5 +1,7 @@
 package com.example.booktracker;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,5 +22,11 @@ public class BookController {
         model.addAttribute("books",bookService.search(q));
         model.addAttribute("q",q);
         return "books";
+    }
+
+    @PostMapping
+    public String create(@ModelAttribute Book book){
+        bookService.create(book);
+        return "redirect:/books";
     }
 }

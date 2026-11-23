@@ -20,4 +20,8 @@ public class BookService {
         }
         return bookRepository.findByTitleContainingIgnoreCase(query.trim());
     }
+    public Book create(Book book){
+        book.setId(null);
+        return bookRepository.save(book);
+    }
 }

@@ -34,6 +34,22 @@
     </tbody>
 </table>
 
+<h2>Add New</h2>
+<form method="post" th:action="@{/books}">
+    <p><label>Title <input type="text" name="title" required></label></p>
+    <p><label>Author<input type="text" name="author" required></label></p>
+    <p><label>Genre<input type="text" name="genre" maxlength="100"></label></p>
+    <p><label>Status
+    <select name="status">
+        <option value="TBR">TBR</option>
+        <option value="READING">Reading</option>
+        <option value="FINISHED">Finished</option>
+    </select>
+    </label></p>
+    <p><label>Rating(&#9733)<input type="number" name="rating" min="1" max="5"></label></p>
+    <p><label>Review <textarea name="review" rows="4" cols="40"></textarea></label></p>
+    <button type="submit">Add Book</button>
+</form>
 
 </body>
 </html>
