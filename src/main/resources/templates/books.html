@@ -20,7 +20,7 @@
 <table th:unless="${#lists.isEmpty(books)}" border="1" cellpadding="6">
     <thead>
     <tr>
-        <th>Title</th><th>Author</th><th>Genre</th><th>Status</th><th>Rating</th>
+        <th>Title</th><th>Author</th><th>Genre</th><th>Status</th><th>Rating</th><th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -30,6 +30,11 @@
         <td th:text="${book.genre}">Genre</td>
         <td th:text="${book.status}">Status</td>
         <td th:text="${book.rating}">Rating</td>
+        <td>
+            <form method="post" th:action="@{/books/{id}/delete(id=${book.id})}" onsubmit="return confirm('Delete this Books?')">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

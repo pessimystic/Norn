@@ -1,5 +1,6 @@
 package com.example.booktracker;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,6 +39,12 @@ public class BookController {
             return "books";
         }
         bookService.create(form);
+        return "redirect:/books";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Long id){
+        bookService.delete(id);
         return "redirect:/books";
     }
 }

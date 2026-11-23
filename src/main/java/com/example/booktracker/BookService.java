@@ -32,6 +32,10 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    public void delete(Long id){
+        bookRepository.deleteById(id);
+    }
+
     private String blankToNull(String text){
         return (text == null || text.isBlank() ? null : text.trim());
     }
