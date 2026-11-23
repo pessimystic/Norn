@@ -1,5 +1,7 @@
 package com.example.booktracker;
 
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.stereotype.Controller;
@@ -21,12 +23,21 @@ public class BookController {
     public String list(@RequestParam (required=false) String q,Model model) {
         model.addAttribute("books",bookService.search(q));
         model.addAttribute("q",q);
+        if(!model.containsAttribute("bookForm")){
+            model.addAttribute("bookForm",new BookForm());
+
+        }
         return "books";
     }
 
     @PostMapping
-    public String create(@ModelAttribute Book book){
-        bookService.create(book);
+    public String create(@Valid @ModelAttribute("bookForm") BookForm form,BindingResult result, Model model){
+        if(result.hasErrors()){
+            model.addAttribute("books",bookService.search(null));
+            model.addAttribute("q","");
+            return "books";
+        }
+        bookService.create(form);
         return "redirect:/books";
     }
 }
