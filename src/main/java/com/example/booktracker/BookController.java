@@ -21,9 +21,10 @@ public class BookController {
     }
 
     @GetMapping
-    public String list(@RequestParam(required = false) String q, Model model) {
-        model.addAttribute("books", bookService.search(q));
+    public String list(@RequestParam(required = false) String q,@RequestParam(required = false) BookStatus status, Model model) {
+        model.addAttribute("books", bookService.search(q,status));
         model.addAttribute("q", q);
+        model.addAttribute("activeStatus",status);
         if (!model.containsAttribute("bookForm")) {
             model.addAttribute("bookForm", new BookForm());
 
@@ -34,7 +35,7 @@ public class BookController {
     @PostMapping
     public String create(@Valid @ModelAttribute("bookForm") BookForm form, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("books", bookService.search(null));
+            model.addAttribute("books", bookService.search(null,null));
             model.addAttribute("q", "");
             return "books";
         }

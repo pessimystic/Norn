@@ -16,11 +16,20 @@ public class BookService {
         this.bookRepository=bookRepository;
     }
 
-    public List<Book> search(String query){
-        if(query==null||query.isBlank()){
-            return bookRepository.findAll(Sort.by(Sort.Direction.DESC,"createdAt"));
+    public List<Book> search(String query, BookStatus status){
+        Sort newestFirst= Sort.by(Sort.Direction.DESC,"createdAt");
+        boolean hasQuery = query!=null&&!query.isBlank();
+        if(hasQuery && status != null){
+            return bookRepository.findByStatusAndTitleContainingIgnoreCase(status,query.trim(),newestFirst);
         }
-        return bookRepository.findByTitleContainingIgnoreCase(query.trim());
+        if(hasQuery){
+            return bookRepository.findByTitleContainingIgnoreCase(query.trim(),newestFirst);
+        }
+        if(status!=null){
+            return bookRepository.findByStatus(status,newestFirst);
+        }
+        return bookRepository.findAll(newestFirst);
+
     }
 
     private void apply(BookForm form, Book book){
