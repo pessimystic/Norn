@@ -21,21 +21,21 @@ public class BookController {
     }
 
     @GetMapping
-    public String list(@RequestParam (required=false) String q,Model model) {
-        model.addAttribute("books",bookService.search(q));
-        model.addAttribute("q",q);
-        if(!model.containsAttribute("bookForm")){
-            model.addAttribute("bookForm",new BookForm());
+    public String list(@RequestParam(required = false) String q, Model model) {
+        model.addAttribute("books", bookService.search(q));
+        model.addAttribute("q", q);
+        if (!model.containsAttribute("bookForm")) {
+            model.addAttribute("bookForm", new BookForm());
 
         }
         return "books";
     }
 
     @PostMapping
-    public String create(@Valid @ModelAttribute("bookForm") BookForm form,BindingResult result, Model model){
-        if(result.hasErrors()){
-            model.addAttribute("books",bookService.search(null));
-            model.addAttribute("q","");
+    public String create(@Valid @ModelAttribute("bookForm") BookForm form, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("books", bookService.search(null));
+            model.addAttribute("q", "");
             return "books";
         }
         bookService.create(form);
@@ -43,8 +43,25 @@ public class BookController {
     }
 
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id) {
         bookService.delete(id);
+        return "redirect:/books";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        model.addAttribute("bookForm", bookService.toForm(bookService.get(id)));
+        model.addAttribute("bookId", id);
+        return "edit";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String update(@PathVariable Long id, @Valid @ModelAttribute("bookform") BookForm form, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("bookId", id);
+            return "edit";
+        }
+        bookService.update(id, form);
         return "redirect:/books";
     }
 }

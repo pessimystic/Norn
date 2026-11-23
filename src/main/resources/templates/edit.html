@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Norn-Edit Book</title>
+</head>
+
+<body>
+<h1>Edit Book</h1>
+
+<form method="post" th:action="@{/books/{id}/edit(id=${bookId})}" th:object="${bookForm}">
+
+    <p><label>Title <input type="text" th:field="*{title}" maxlength="255" required></label>
+        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color:red"></span>
+    </p>
+    <p><label>Author<input type="text" th:field="*{author}" maxlength="255" required></label>
+        <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" style="color:red"></span>
+    </p>
+    <p><label>Genre<input type="text" th:field="*{genre}" maxlength="100"></label>
+        <span th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}" style="color:red"></span>
+    </p>
+    <p><label>Status
+        <select th:field="*{status}">
+            <option th:each="s : ${T(com.example.booktracker.BookStatus).values()}" th:value="${s}" th:text="${s}"></option>
+        </select>
+    </label></p>
+    <p><label>Rating(&#9733;)<input type="number" th:field="*{rating}" min="1" max="5"></label>
+        <span th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}" style="color:red"></span>
+    </p>
+    <p><label>Review <textarea th:field="*{review}" rows="4" cols="40"></textarea></label>
+        <span th:if="${#fields.hasErrors('review')}" th:errors="*{review}" style="color:red"></span>
+    </p>
+
+    <button type="submit">Save Changes</button>
+    <a th:href="@{/books}">Cancel</a>
+</form>
+</body>
+</html>

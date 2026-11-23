@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang = "en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>
@@ -31,6 +31,7 @@
         <td th:text="${book.status}">Status</td>
         <td th:text="${book.rating}">Rating</td>
         <td>
+            <a th:href="@{/books/{id}/edit(id=${book.id})}">Edit</a>
             <form method="post" th:action="@{/books/{id}/delete(id=${book.id})}" onsubmit="return confirm('Delete this Books?')">
                 <button type="submit">Delete</button>
             </form>
@@ -55,7 +56,7 @@
         <option th:each="s : ${T(com.example.booktracker.BookStatus).values()}" th:value="${s}" th:text="${s}"></option>
     </select>
     </label></p>
-    <p><label>Rating(&#9733)<input type="number" th:field="*{rating}" min="1" max="5"></label>
+    <p><label>Rating(&#9733;)<input type="number" th:field="*{rating}" min="1" max="5"></label>
         <span th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}" style="color:red"></span>
     </p>
     <p><label>Review <textarea th:field="*{review}" rows="4" cols="40"></textarea></label>
